@@ -16,7 +16,7 @@ import {
   Info,
   Title,
   Author,
-  LoadingPage
+  LoadingPage,
 } from './styles';
 
 export default class User extends Component {
@@ -34,6 +34,7 @@ export default class User extends Component {
     stars: [],
     loadingList: true,
     loadingNextPage: false,
+    refreshing: false,
     page: 1,
   };
 
@@ -69,9 +70,25 @@ export default class User extends Component {
     });
   };
 
+  refreshList = async () => {
+    this.setState({ refreshing: true });
+
+    const { navigation } = this.props;
+
+    const user = navigation.getParam('user');
+
+    const response = await api.get(`/users/${user.login}/starred?page=1`);
+
+    this.setState({
+      stars: response.data,
+      refreshing: false,
+      page: 1,
+    });
+  };
+
   render() {
     const { navigation } = this.props;
-    const { stars, loadingList, loadingNextPage } = this.state;
+    const { stars, loadingList, loadingNextPage, refreshing } = this.state;
 
     const user = navigation.getParam('user');
 
@@ -90,6 +107,8 @@ export default class User extends Component {
             data={stars}
             onEndReachedThreshold={0.1}
             onEndReached={this.loadMore}
+            onRefresh={this.refreshList}
+            refreshing={refreshing}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
               <Starred>
