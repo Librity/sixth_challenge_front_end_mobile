@@ -86,6 +86,12 @@ export default class User extends Component {
     });
   };
 
+  handleWebView = repo => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Repo', { repo });
+  };
+
   render() {
     const { navigation } = this.props;
     const { stars, loadingList, loadingNextPage, refreshing } = this.state;
@@ -111,7 +117,7 @@ export default class User extends Component {
             refreshing={refreshing}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
-              <Starred>
+              <Starred onPress={() => this.handleWebView(item)}>
                 <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
                 <Info>
                   <Title>{item.name}</Title>
