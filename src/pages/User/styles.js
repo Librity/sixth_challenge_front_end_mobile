@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { ActivityIndicator } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -33,6 +34,13 @@ export const Bio = styled.Text`
   color: #999;
   margin-top: 5px;
   text-align: center;
+`;
+
+export const Loading = styled(ActivityIndicator).attrs({
+  color: '#3f76cf',
+  size: 'large',
+})`
+  margin-top: 20px;
 `;
 
 export const Stars = styled.FlatList.attrs({
@@ -74,4 +82,13 @@ export const Author = styled.Text`
   font-size: 13px;
   color: #666;
   margin-top: 2px;
+`;
+
+export const LoadingPage = styled(ActivityIndicator).attrs({
+  color: '#3f76cf',
+  size: 'small',
+})`
+  justify-content: center;
+  align-items: center;
+  height: 10px;
 `;
